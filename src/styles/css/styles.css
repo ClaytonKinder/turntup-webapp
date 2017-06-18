@@ -1,0 +1,44 @@
+.full-viewport-height {
+  height: 100vh !important; }
+
+[text-center] {
+  text-align: center; }
+
+[background="primary"] {
+  background-color: #673AB7; }
+
+body {
+  font-family: 'Roboto', sans-serif; }
+
+[md-button][button-primary] {
+  background-color: #673AB7 !important;
+  color: white !important; }
+
+[md-button][block] {
+  display: block;
+  width: 100%; }
+
+[md-button][text-large] {
+  font-size: 2rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem; }
+
+[md-button][disabled] {
+  cursor: not-allowed !important;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  opacity: .65; }
+
+.prelogin-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap; }
+  .prelogin-wrapper md-card.prelogin-card {
+    font-size: 2rem; }
+  .prelogin-wrapper .prelogin-logo {
+    max-width: 300px; }
+  .prelogin-wrapper .prelogin-title {
+    color: white; }
