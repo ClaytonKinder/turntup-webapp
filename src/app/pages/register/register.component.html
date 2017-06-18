@@ -1,5 +1,7 @@
 <div class="prelogin-wrapper register-component full-viewport-height" background="primary">
-  <img class="prelogin-logo" src="assets/images/turnip-white.png" />
-  <h1 class="prelogin-title">Register</h1>
-  <register-form (formSubmitted)="registerUser($event)"></register-form>
+  <md-card class="prelogin-card" text-center>
+    <img class="prelogin-logo" src="assets/images/turnip-primary.png" />
+    <h2 class="prelogin-title">Register</h2>
+    <register-form (formSubmitted)="registerUser($event)"></register-form>
+  </md-card>
 </div>

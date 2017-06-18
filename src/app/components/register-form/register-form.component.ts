@@ -18,10 +18,10 @@ export class RegisterFormComponent implements OnInit {
     @Inject(FormBuilder) fb: FormBuilder
   ) {
     this.form = fb.group({
-      firstName: [this.firstName, Validators.compose([Validators.maxLength(50), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      lastName: [this.lastName, Validators.compose([Validators.maxLength(50), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      firstName: [this.firstName, Validators.compose([Validators.maxLength(50), Validators.required])],
+      lastName: [this.lastName, Validators.compose([Validators.maxLength(50), Validators.required])],
       email: [this.email, Validators.compose([Validators.maxLength(50), Validators.email, Validators.required])],
-      password: [this.password, Validators.compose([Validators.maxLength(50), Validators.required])],
+      password: [this.password, Validators.compose([Validators.minLength(8), Validators.maxLength(50), Validators.required])],
     });
   }
 

@@ -1,14 +1,18 @@
 .prelogin-wrapper {
-  @include flexbox(column, flex-start, center, wrap);
+  @include flexbox(column, center, center, wrap);
+
   md-card.prelogin-card {
     font-size: 2rem;
+    @include box-shadow(4);
   }
 
   .prelogin-logo {
-    max-width: 300px;
+    max-width: 100px;
   }
 
   .prelogin-title {
-    color: $white;
+    color: $primary;
+    margin-top: 0;
+    font-weight: lighter;
   }
 }

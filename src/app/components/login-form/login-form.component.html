@@ -1,16 +1,14 @@
-<md-card class="prelogin-card" text-center>
-  <form #loginForm="ngForm" (ngSubmit)="submitForm(loginForm)" [formGroup]="form">
-    <div>
-      <md-input-container>
-        <input mdInput placeholder="Email" name="email" [(ngModel)]="email" formControlName="email">
-      </md-input-container>
-    </div>
-    <div>
-      <md-input-container block>
-        <input mdInput type=password placeholder="Password" name="password" [(ngModel)]="password" formControlName="password">
-      </md-input-container>
-    </div>
-    <button md-button button-primary block text-large type="submit" [disabled]="!loginForm.form.valid">SUBMIT</button>
-    <a md-button color="primary" block [routerLink]="['/register']">Already have an account?</a>
-  </form>
-</md-card>
+<form #loginForm="ngForm" (ngSubmit)="submitForm(loginForm)" [formGroup]="form">
+  <div>
+    <md-input-container>
+      <input mdInput placeholder="Email" name="email" [(ngModel)]="email" formControlName="email">
+    </md-input-container>
+  </div>
+  <div>
+    <md-input-container block>
+      <input mdInput type=password placeholder="Password" name="password" [(ngModel)]="password" formControlName="password">
+    </md-input-container>
+  </div>
+  <button md-button button-primary block text-large type="submit" [disabled]="!loginForm.form.valid">SUBMIT</button>
+  <a md-button color="primary" block [routerLink]="['/register']">Already have an account?</a>
+</form>

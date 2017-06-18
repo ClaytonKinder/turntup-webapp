@@ -1,26 +1,24 @@
-<md-card class="prelogin-card" text-center>
-  <form #registerForm="ngForm" (ngSubmit)="submitForm(registerForm)" [formGroup]="form">
-    <div>
-      <md-input-container>
-        <input mdInput placeholder="First Name" name="firstName" [(ngModel)]="firstName" formControlName="firstName">
-      </md-input-container>
-    </div>
-    <div>
-      <md-input-container>
-        <input mdInput placeholder="Last name" name="lastName" [(ngModel)]="lastName" formControlName="lastName">
-      </md-input-container>
-    </div>
-    <div>
-      <md-input-container>
-        <input mdInput placeholder="Email" name="email" [(ngModel)]="email" formControlName="email">
-      </md-input-container>
-    </div>
-    <div>
-      <md-input-container block>
-        <input mdInput type=password placeholder="Password" name="password" [(ngModel)]="password" formControlName="password">
-      </md-input-container>
-    </div>
-    <button md-button button-primary block text-large type="submit" [disabled]="!registerForm.form.valid">SUBMIT</button>
-    <a md-button color="primary" block [routerLink]="['/login']">Already have an account?</a>
-  </form>
-</md-card>
+<form #registerForm="ngForm" (ngSubmit)="submitForm(registerForm)" [formGroup]="form">
+  <div>
+    <md-input-container>
+      <input mdInput placeholder="First Name" name="firstName" [(ngModel)]="firstName" formControlName="firstName">
+    </md-input-container>
+  </div>
+  <div>
+    <md-input-container>
+      <input mdInput placeholder="Last name" name="lastName" [(ngModel)]="lastName" formControlName="lastName">
+    </md-input-container>
+  </div>
+  <div>
+    <md-input-container>
+      <input mdInput placeholder="Email" name="email" [(ngModel)]="email" formControlName="email">
+    </md-input-container>
+  </div>
+  <div>
+    <md-input-container block>
+      <input mdInput type=password placeholder="Password" name="password" [(ngModel)]="password" formControlName="password">
+    </md-input-container>
+  </div>
+  <button md-button button-primary block text-large type="submit" [disabled]="!registerForm.form.valid">SUBMIT</button>
+  <a md-button color="primary" block [routerLink]="['/login']">Already have an account?</a>
+</form>
