@@ -7,7 +7,6 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserService {
   headers;
-  // url = 'http://localhost:8080/api/users/';
   url = GlobalVariable.BASE_API_URL + 'users/';
 
   constructor(public http: Http) {
@@ -17,7 +16,6 @@ export class UserService {
   ngOnInit() {
     this.headers = new Headers();
     this.headers.append('Content-Type', 'application/json');
-    console.log(this.url);
   }
 
   private handleUserError(error:any, msg) {
@@ -38,7 +36,6 @@ export class UserService {
   }
 
   createUser(data) {
-    console.log(this.url);
     return this.http.post(this.url + 'createuser', data, {headers: this.headers})
     .map(res => res.json())
     .catch((error:any) => this.handleUserError(error, 'Could not create user at this time.'));
