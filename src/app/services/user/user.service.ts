@@ -59,6 +59,13 @@ export class UserService {
     .catch((error:any) => this.handleUserError(error, 'Could not update user at this time.'));
   }
 
+  updateUserTurntStatus(data) {
+    console.log(data);
+    return this.http.post(this.url + 'updateuserturntstatus', data, {headers: this.headers})
+    .map(res => res.json())
+    .catch((error:any) => this.handleUserError(error, 'Could not update user at this time.'));
+  }
+
   deleteUser(user) {
     return this.http.delete(this.url + 'deleteuser', new RequestOptions({
       body: user

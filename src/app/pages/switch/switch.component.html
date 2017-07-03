@@ -1,3 +1,6 @@
-<p>
-  switch works!
-</p>
+<div class="switch-page">
+  <div class="switchBlock">
+    <input [(ngModel)]="user.details.isTurnt" (change)="changeTurntStatus(user)" type='checkbox' name='switch' value='switch' id="switch"/><label for="switch"></label>
+  </div>
+  <div class="confetti" *ngIf="user.isTurnt"></div>
+</div>

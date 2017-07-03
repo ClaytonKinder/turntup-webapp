@@ -1,0 +1,48 @@
+.switch-page {
+  padding-top: 24px;
+  height: 100%;
+  position: relative;
+  @include flexbox(row, center, center, wrap);
+
+  .switchBlock {
+    padding: 100px 0;
+    text-align: center;
+    z-index: 100;
+
+    input[type=checkbox] {
+      display:none;
+    }
+
+    input[type=checkbox] + label {
+      cursor: pointer;
+      background-image: url('../../assets/images/turnt-switch-down.png');
+      height: 363px;
+      width: 241px;
+      display:inline-block;
+      padding: 0 0 0 0px;
+    }
+
+    input[type=checkbox]:checked + label {
+      cursor: pointer;
+      background-image: url('../../assets/images/turnt-switch-up.png');
+      height: 363px;
+      width: 241px;
+      display: inline-block;
+      padding: 0 0 0 0px;
+      position: relative;
+      top: -24px;
+      left: 2px;
+    }
+  }
+
+  .confetti {
+    background-image: url('../../assets/images/confetti.gif');
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+  }
+
+}
