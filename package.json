@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start-dev": "ng serve || node-sass -w styles.scss styles.css",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
