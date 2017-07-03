@@ -14,10 +14,12 @@ import { SwitchComponent } from './pages/switch/switch.component';
 import { MapComponent } from './pages/map/map.component';
 // Services
 import { UserService} from './services/user/user.service';
+import { AuthenticationService} from './services/authentication/authentication.service';
 // Directives
 
 // Guards
-import { AuthGuard } from './guards/auth.guard';
+import { LoggedInGuard } from './guards/logged-in/logged-in.guard';
+import { LoggedOutGuard } from './guards/logged-out/logged-out.guard';
 // Modules
 import { MaterialModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
@@ -26,9 +28,9 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 
 const appRoutes: Routes = [
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'app', component: PostloginComponent, canActivate: [AuthGuard],
+  { path: 'register', component: RegisterComponent, canActivate: [LoggedOutGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [LoggedOutGuard] },
+  { path: 'app', component: PostloginComponent, canActivate: [LoggedInGuard],
     children: [
       { path: '', redirectTo: '', pathMatch: 'full' },
       { path: 'switch', component: SwitchComponent },
@@ -62,7 +64,9 @@ const appRoutes: Routes = [
   ],
   providers: [
     UserService,
-    AuthGuard
+    AuthenticationService,
+    LoggedOutGuard,
+    LoggedInGuard
   ],
   bootstrap: [AppComponent]
 })
