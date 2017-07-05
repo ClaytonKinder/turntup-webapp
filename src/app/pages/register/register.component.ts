@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -13,34 +15,25 @@ export class RegisterComponent implements OnInit {
   constructor(
     private userService: UserService,
     private toast: ToastsManager,
-    private vcr: ViewContainerRef
+    private vcr: ViewContainerRef,
+    private authenticationService: AuthenticationService,
+    private router: Router
   ){}
 
   ngOnInit() {
     console.log('Loaded RegisterComponent');
     this.toast.setRootViewContainerRef(this.vcr);
-    this.getUsers();
-  }
-
-  getUsers() {
-    this.userService.getUsers().subscribe(data => {
-      this.users = data;
-    }, (err) => {
-      this.toast.error(err.message);
-    });
-  }
-
-  deleteUser(user) {
-    this.userService.deleteUser(user).subscribe(data => {
-      this.getUsers();
-    }, (err) => {
-      this.toast.error(err.message);
-    });
   }
 
   registerUser(obj) {
     this.userService.createUser(obj.formData).subscribe((res: Response) => {
-      this.getUsers();
+      this.authenticationService.login(obj.formData).subscribe((res) => {
+        if (res) {
+          this.router.navigate(['/app/switch']);
+        }
+      }, (err) => {
+        this.toast.error(err.message);
+      });
       obj.form.reset();
     }, (err) => {
       this.toast.error(err.message);
