@@ -42,11 +42,8 @@ export class LoginComponent implements OnInit {
       if (res) {
         this.router.navigate(['/app/switch']);
       }
-      // this.toast.success('Successfully logged in as ' + res.email);
-      // obj.form.reset();
     }, (err) => {
-      console.log(err);
-      // this.toast.error(err.message);
+      this.toast.error(err.message);
     });
   }
 

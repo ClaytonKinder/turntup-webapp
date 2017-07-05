@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { GlobalVariable } from '../global-variables/global-variables.service';
+import { tokenNotExpired } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -10,14 +11,16 @@ export class AuthenticationService {
   headers;
   url = GlobalVariable.BASE_API_URL + 'authentication/';
   public token: string;
+  public currentUser: object;
 
   constructor(
     public http: Http,
     private router: Router,
   ) {
-    console.log('Hello UserService Provider');
-    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.token = currentUser && currentUser.token;
+    console.log('Hello AuthenticationService Provider');
+    this.token = localStorage.getItem('token');
+    let head = new Headers({ 'Authorization': 'Bearer ' + this.token });
+    this.headers = new RequestOptions({ headers: head });
   }
 
   ngOnInit() {
@@ -25,35 +28,32 @@ export class AuthenticationService {
     this.headers.append('Content-Type', 'application/json');
   }
 
-  private handleUserError(error:any, msg) {
+  private handleAuthenticationError(error:any, msg) {
     var err = {
-      message: msg
+      message: msg,
+      success: error.ok
     };
     return Observable.throw(err);
   }
 
-  getCurrentUser() {
-    return new Promise((resolve, reject) => {
-      if (localStorage.getItem('currentUser')) {
-        console.log(localStorage.getItem('currentUser'));
-        resolve(JSON.parse(localStorage.getItem('currentUser')))
-      } else {
-        reject(false);
-      }
-    });
+  loggedIn() {
+    return tokenNotExpired();
   }
 
   login(user): Observable<boolean> {
     return this.http.post(this.url + 'login', user)
         .map((response: Response) => {
             // login successful if there's a jwt token in the response
+            console.log(response);
             var res = response.json();
             let token = response.json() && response.json().token;
             if (token) {
                 // set token property
                 this.token = token;
                 // store username and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify({ details: res.user, token: token }));
+                // localStorage.setItem('currentUser', JSON.stringify({ details: res.user, token: token }));
+                localStorage.setItem('currentUserId', res.user._id);
+                localStorage.setItem('token', token);
 
                 // return true to indicate successful login
                 return true;
@@ -61,13 +61,15 @@ export class AuthenticationService {
                 // return false to indicate failed login
                 return false;
             }
-        });
+        })
+        .catch((error:any) => this.handleAuthenticationError(error, 'The username or password that you provided is incorrect.'));;
   }
 
   logout(): void {
       // clear token remove user from local storage to log user out
       this.token = null;
-      localStorage.removeItem('currentUser');
+      localStorage.removeItem('currentUserId');
+      localStorage.removeItem('token');
       this.router.navigate(['/login']);
   }
 

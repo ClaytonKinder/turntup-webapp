@@ -9,34 +9,29 @@ import { UserService } from '../../services/user/user.service';
   styleUrls: ['./switch.component.scss']
 })
 export class SwitchComponent implements OnInit {
-  user = {};
+  user;
   token;
   constructor(
-    private authenticationService: AuthenticationService,
+    private auth: AuthenticationService,
     private userService: UserService,
     private toast: ToastsManager,
-    private vcr: ViewContainerRef
-  ) { }
+    private vcr: ViewContainerRef,
+  ) {
+
+  }
 
   changeTurntStatus(user) {
-    console.log(user.details.isTurnt);
     this.userService.updateUserTurntStatus(user).subscribe(data => {
-      // this.getUsers();
-      console.log(data);
-      localStorage.setItem('currentUser', JSON.stringify({ details: data, token: this.token }));
-      // localStorage.setItem('currentUser', JSON.stringify({ details: res.user, token: token }));
     }, (err) => {
       this.toast.error(err.message);
     });
   }
 
-  ngOnInit() {
-    this.authenticationService.getCurrentUser().then(function(result){
-      console.log(result);
-      this.user = result;
-    });
+  getUsers() {
+    this.userService.getUsers();
+  }
 
-    console.log(this.user);
+  ngOnInit() {
     this.toast.setRootViewContainerRef(this.vcr);
   }
 

@@ -26,7 +26,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   submitForm(form) {
-    console.log(form);
     var obj = {
       formData: {
         email: this.email,

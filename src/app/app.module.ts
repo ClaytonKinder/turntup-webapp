@@ -17,6 +17,8 @@ import { UserService} from './services/user/user.service';
 import { AuthenticationService} from './services/authentication/authentication.service';
 // Directives
 
+// Resolves
+import { CurrentUserResolve} from './resolves/current-user/current-user.resolve';
 // Guards
 import { LoggedInGuard } from './guards/logged-in/logged-in.guard';
 import { LoggedOutGuard } from './guards/logged-out/logged-out.guard';
@@ -28,17 +30,25 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 
 const appRoutes: Routes = [
-  { path: 'register', component: RegisterComponent, canActivate: [LoggedOutGuard] },
-  { path: 'login', component: LoginComponent, canActivate: [LoggedOutGuard] },
-  { path: 'app', component: PostloginComponent, canActivate: [LoggedInGuard],
+  // { path: 'register', component: RegisterComponent, canActivate: [LoggedOutGuard] },
+  // { path: 'login', component: LoginComponent, canActivate: [LoggedOutGuard] },
+  { path: 'app', component: PostloginComponent, canActivate: [LoggedInGuard], resolve: { currentUser: CurrentUserResolve },
     children: [
       { path: '', redirectTo: '', pathMatch: 'full' },
       { path: 'switch', component: SwitchComponent },
       { path: 'map', component: MapComponent },
     ]
   },
-  { path: '',   redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', component: LoginComponent }
+  {
+    path: '',
+    canActivate: [LoggedOutGuard],
+    children: [
+      { path: 'register', component: RegisterComponent,  },
+      { path: 'login', component: LoginComponent },
+    ]
+  },
+  { path: '',   redirectTo: '/login', pathMatch: 'full', canActivate: [LoggedOutGuard] },
+  { path: '**',   redirectTo: '/login', pathMatch: 'full', canActivate: [LoggedOutGuard] },
 ];
 
 @NgModule({
@@ -66,7 +76,8 @@ const appRoutes: Routes = [
     UserService,
     AuthenticationService,
     LoggedOutGuard,
-    LoggedInGuard
+    LoggedInGuard,
+    CurrentUserResolve
   ],
   bootstrap: [AppComponent]
 })

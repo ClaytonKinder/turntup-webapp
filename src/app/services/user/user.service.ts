@@ -2,20 +2,27 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 import { GlobalVariable } from '../global-variables/global-variables.service';
+import { AuthenticationService } from '../authentication/authentication.service';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UserService {
   headers;
+  currentUser;
   url = GlobalVariable.BASE_API_URL + 'users/';
 
-  constructor(public http: Http) {
+  constructor(
+    public http: Http,
+    private auth: AuthenticationService
+  ) {
     console.log('Hello UserService Provider');
-  }
-
-  ngOnInit() {
-    this.headers = new Headers();
-    this.headers.append('Content-Type', 'application/json');
+    let head = new Headers({ 'Authorization': 'Bearer ' + this.auth.token });
+    this.headers = new RequestOptions({ headers: head });
+    this.getCurrentUser(localStorage.getItem('currentUserId')).subscribe(data => {
+      this.currentUser = data;
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   private handleUserError(error:any, msg) {
@@ -36,7 +43,7 @@ export class UserService {
   }
 
   createUser(data) {
-    return this.http.post(this.url + 'createuser', data, {headers: this.headers})
+    return this.http.post(this.url + 'createuser', data, this.headers)
     .map(res => res.json())
     .catch((error:any) => this.handleUserError(error, 'Could not create user at this time.'));
   }
@@ -48,20 +55,25 @@ export class UserService {
   }
 
   getUser(data) {
-    return this.http.post(this.url + 'getuser', data, {headers: this.headers})
+    return this.http.post(this.url + 'getuser', data, this.headers)
+    .map(res => res.json())
+    .catch((error:any) => this.handleUserError(error, 'Could not get user at this time.'));
+  }
+
+  getCurrentUser(id) {
+    return this.http.post(this.url + 'getuserbyid', {_id: id}, this.headers)
     .map(res => res.json())
     .catch((error:any) => this.handleUserError(error, 'Could not get user at this time.'));
   }
 
   updateUser(data) {
-    return this.http.post(this.url + 'updateuser', data, {headers: this.headers})
+    return this.http.post(this.url + 'updateuser', data, this.headers)
     .map(res => res.json())
     .catch((error:any) => this.handleUserError(error, 'Could not update user at this time.'));
   }
 
   updateUserTurntStatus(data) {
-    console.log(data);
-    return this.http.post(this.url + 'updateuserturntstatus', data, {headers: this.headers})
+    return this.http.post(this.url + 'updateuserturntstatus', data, this.headers)
     .map(res => res.json())
     .catch((error:any) => this.handleUserError(error, 'Could not update user at this time.'));
   }
@@ -74,13 +86,13 @@ export class UserService {
     ).catch((error:any) => this.handleUserError(error, 'Could not delete user at this time.'));
   }
 
-  private jwt() {
-      // create authorization header with jwt token
-      let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      if (currentUser && currentUser.token) {
-          let headers = new Headers({ 'Authorization': 'Bearer ' + currentUser.token });
-          return new RequestOptions({ headers: headers });
-      }
-  }
+  // private jwt() {
+  //     // create authorization header with jwt token
+  //     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  //     if (currentUser && currentUser.token) {
+  //         let headers = new Headers({ 'Authorization': 'Bearer ' + currentUser.token });
+  //         return new RequestOptions({ headers: headers });
+  //     }
+  // }
 
 }
