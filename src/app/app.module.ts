@@ -30,24 +30,22 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 
 const appRoutes: Routes = [
-  // { path: 'register', component: RegisterComponent, canActivate: [LoggedOutGuard] },
-  // { path: 'login', component: LoginComponent, canActivate: [LoggedOutGuard] },
-  { path: 'app', component: PostloginComponent, canActivate: [LoggedInGuard], resolve: { currentUser: CurrentUserResolve },
+  { path: 'app', component: PostloginComponent, canActivate: [LoggedInGuard],
     children: [
       { path: '', redirectTo: '', pathMatch: 'full' },
-      { path: 'switch', component: SwitchComponent },
-      { path: 'map', component: MapComponent },
+      { path: 'switch', component: SwitchComponent, resolve: { currentUser: CurrentUserResolve } },
+      { path: 'map', component: MapComponent, resolve: { currentUser: CurrentUserResolve } },
     ]
   },
   {
     path: '',
     canActivate: [LoggedOutGuard],
     children: [
+      { path: '', redirectTo: '/login', pathMatch: 'full' },
       { path: 'register', component: RegisterComponent,  },
       { path: 'login', component: LoginComponent },
     ]
   },
-  { path: '',   redirectTo: '/login', pathMatch: 'full', canActivate: [LoggedOutGuard] },
   { path: '**',   redirectTo: '/login', pathMatch: 'full', canActivate: [LoggedOutGuard] },
 ];
 

@@ -23,22 +23,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     console.log('Loaded RegisterComponent');
     this.toast.setRootViewContainerRef(this.vcr);
-    console.log(localStorage);
-  }
-
-  getUser(obj) {
-    this.userService.getUser(obj.formData).subscribe((res) => {
-      this.toast.success('Successfully logged in as ' + res.email);
-      obj.form.reset();
-    }, (err) => {
-      console.log(err);
-      this.toast.error(err.message);
-    });
   }
 
   login(obj) {
     this.authenticationService.login(obj.formData).subscribe((res) => {
-      console.log(res);
       if (res) {
         this.router.navigate(['/app/switch']);
       }

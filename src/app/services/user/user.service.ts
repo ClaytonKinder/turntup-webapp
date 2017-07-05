@@ -19,6 +19,7 @@ export class UserService {
     let head = new Headers({ 'Authorization': 'Bearer ' + this.auth.token });
     this.headers = new RequestOptions({ headers: head });
     this.getCurrentUser(localStorage.getItem('currentUserId')).subscribe(data => {
+      console.log(data);
       this.currentUser = data;
     }, (err) => {
       console.log(err);
@@ -61,6 +62,7 @@ export class UserService {
   }
 
   getCurrentUser(id) {
+    console.log(id);
     return this.http.post(this.url + 'getuserbyid', {_id: id}, this.headers)
     .map(res => res.json())
     .catch((error:any) => this.handleUserError(error, 'Could not get user at this time.'));

@@ -44,18 +44,13 @@ export class AuthenticationService {
     return this.http.post(this.url + 'login', user)
         .map((response: Response) => {
             // login successful if there's a jwt token in the response
-            console.log(response);
             var res = response.json();
             let token = response.json() && response.json().token;
             if (token) {
                 // set token property
                 this.token = token;
-                // store username and jwt token in local storage to keep user logged in between page refreshes
-                // localStorage.setItem('currentUser', JSON.stringify({ details: res.user, token: token }));
                 localStorage.setItem('currentUserId', res.user._id);
                 localStorage.setItem('token', token);
-
-                // return true to indicate successful login
                 return true;
             } else {
                 // return false to indicate failed login
